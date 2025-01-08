@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useParams, useRouter } from "next/navigation"
 
 interface CreateProjectDialogProps {
     onProjectCreated: (projectID: string) => void
@@ -24,6 +25,7 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
     const [ideaDescription, setIdeaDescription] = React.useState("")
     const [isCreating, setIsCreating] = React.useState(false)
     const [message, setMessage] = React.useState<string | null>(null)
+    const router = useRouter()
 
     const handleCreate = async () => {
         setIsCreating(true)
@@ -47,6 +49,9 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
                     setIdeaDescription("")
                     setMessage(null)
                 }, 2000)
+
+                router.push(`/project/selectSources/${result.project.projectID}`)
+
             } else {
                 setMessage(result.error || "Failed to create project")
             }
@@ -61,13 +66,13 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
 
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">Create Project</Button>
+                <Button className="font-script border border-gray-600 text-sm h-10 w-auto px-6 rounded-xl bg-gray-900 text-white hover:bg-gray-800 font-medium">Create Project</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] bg-black text-gray-100">
 
                 <DialogHeader>
-                    <DialogTitle>Create Project</DialogTitle>
-                    <DialogDescription className="text-gray-400">
+                    <DialogTitle className="text-xl font-script">Create Project</DialogTitle>
+                    <DialogDescription className="font-script text-gray-400">
                         Enter the details for your new project idea.
                     </DialogDescription>
                 </DialogHeader>
@@ -76,7 +81,7 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
                         id="ideaTitle"
                         value={ideaTitle}
                         onChange={(e) => setIdeaTitle(e.target.value.slice(0, 200))}
-                        className="col-span-3 bg-gray-700 text-gray-100 border-gray-600 w-full h-fit"
+                        className="font-script text-sm col-span-3 bg-gray-700 text-gray-100 border-gray-600 w-full h-fit rounded-lg"
                         maxLength={200}
                         required
                         placeholder="Enter idea title (max 200 characters)"
@@ -85,7 +90,7 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
                         id="ideaDescription"
                         value={ideaDescription}
                         onChange={(e) => setIdeaDescription(e.target.value.slice(0, 2000))}
-                        className="col-span-3 bg-gray-700 text-gray-100 border-gray-600 text-2xl h-[40vh]"
+                        className="font-script text-sm col-span-3 bg-gray-700 text-gray-100 border-gray-600 w-full h-[40vh] rounded-lg"
                         maxLength={2000}
                         required
                         placeholder="Enter idea description (max 2000 characters)"
@@ -93,14 +98,14 @@ export function CreateProjectDialog({ onProjectCreated, userEmail }: CreateProje
                 </div>
                 <DialogFooter>
                 <div className="my-8 relative group flex w-full justify-center mx-auto">
-                    <div className="absolute inset-0 blur-xl rounded-full w-auto h-full bg-[linear-gradient(45deg,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF)] bg-[length:800%_auto] animate-gradientbg ease-out p-[3px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div className="relative flex rounded-full w-full h-full bg-[linear-gradient(45deg,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF)] bg-[length:800%_auto] animate-gradient p-[3px] hover:bg-transparent">
+                    <div className="absolute inset-0 blur-xl rounded-2xl w-auto h-full bg-[linear-gradient(45deg,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF)] bg-[length:800%_auto] animate-gradientbg ease-out p-[2px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="relative flex rounded-2xl w-full h-full bg-[linear-gradient(45deg,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF,#2998ff,#FB923C,#8F00FF)] bg-[length:800%_auto] animate-gradient p-[2px] hover:bg-transparent">
                         <Button
                             type="submit"
                             onClick={handleCreate}
                             variant={"gradient"}
                             disabled={!ideaTitle || !ideaDescription || isCreating}
-                            className="w-full rounded-full bg-black h-full text-xl font-bold text-white"
+                            className="font-script w-full rounded-2xl bg-black h-full text-lg font-bold text-white"
                             >
                             {isCreating ? "Creating..." : "Create"}
                         </Button>
